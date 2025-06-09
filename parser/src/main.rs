@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::env;
 use std::fs::File;
-use std::io::{self, Read, Write};
+use std::io::{self, Read};
 use std::path::Path;
 use vte::{Parser, Perform};
 
@@ -360,12 +360,12 @@ fn main() -> io::Result<()> {
     let mut seen = HashSet::new();
     output_lines.retain(|line| seen.insert(line.clone()));
 
-    let mut log = File::create(&log_path)?;
+    // let mut log = File::create(&log_path)?;
     for line in output_lines {
-        writeln!(log, "{}", line)?;
+    //     writeln!(log, "{}", line)?;
+        println!("{}", line);
     }
-
-    println!("✅ Log written to {}", log_path.display());
+    //println!("✅ Log written to {}", log_path.display());
     Ok(())
 }
 
