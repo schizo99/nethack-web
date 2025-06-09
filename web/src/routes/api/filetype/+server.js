@@ -21,7 +21,11 @@ export async function GET({ url }) {
 
   try {
     const safePath = resolveSafePath(relativePath);
-    const { stdout } = await execAsync(`ttyrec-parser -b "${safePath}"`);
+    const { stdout } = await execAsync(`ttyrec-parser "${safePath}"`);
+    
+    if (!stdout.includes('You die...')) {
+      return new Response(JSON.stringify({ error: 'File validation failed: missing "You die..." in output' }), { status: 400 });
+    }
     return new Response(JSON.stringify({ type: stdout.trim() }), { status: 200 });
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), { status: 500 });
