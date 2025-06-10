@@ -1,8 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-
-const ROOT_DIRECTORY = '/nethack';
-
+const ROOT_DIRECTORY = import.meta.env.VITE_ROOT_DIRECTORY || '/nethack';
 function resolveSafePath(relativePath) {
   const safePath = path.resolve(ROOT_DIRECTORY, relativePath);
   if (!safePath.startsWith(ROOT_DIRECTORY)) {

@@ -3,7 +3,7 @@ import { promisify } from 'util';
 import path from 'path';
 
 const execAsync = promisify(exec);
-const ROOT_DIRECTORY = '/nethack';
+const ROOT_DIRECTORY = import.meta.env.VITE_ROOT_DIRECTORY || '/nethack';
 
 function resolveSafePath(relativePath) {
   const safePath = path.resolve(ROOT_DIRECTORY, relativePath);
@@ -22,7 +22,7 @@ export async function GET({ url }) {
   try {
     const safePath = resolveSafePath(relativePath);
     const { stdout } = await execAsync(`ttyrec-parser "${safePath}"`);
-    
+
     if (!stdout.includes('You die...')) {
       return new Response(JSON.stringify({ error: 'File validation failed: missing "You die..." in output' }), { status: 400 });
     }
